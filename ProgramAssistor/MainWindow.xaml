@@ -41,7 +41,35 @@
                     </Grid>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="BACKUP" />
+            <TabItem Header="MOUSE BEACON">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0"
+                                Margin="5,2,5,2"
+                                Command="{Binding MouseBeaconCommand}"
+                                CommandParameter="{Binding Content, RelativeSource={RelativeSource Self}}"
+                                Content="ON"
+                                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                        <Button Grid.Column="1"
+                                Margin="5,2,5,2"
+                                Command="{Binding MouseBeaconCommand}"
+                                CommandParameter="{Binding Content, RelativeSource={RelativeSource Self}}"
+                                Content="OFF"
+                                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="BACKUP">
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

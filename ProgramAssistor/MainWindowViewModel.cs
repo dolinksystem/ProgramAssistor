@@ -9,6 +9,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.Json;
+using System.Threading;
+using System.Windows;
 using System.Windows.Navigation;
 using System.Windows.Threading;
 
@@ -57,8 +59,10 @@ namespace ProgramAssistor
 
         public IRelayCommand<string> SaveCommand { get; }
         public IRelayCommand<string> MoveCommand { get; }
+        public IRelayCommand<string> MouseBeaconCommand { get; }
 
-        private readonly DispatcherTimer _timer;
+        private readonly DispatcherTimer _timerPos;
+        private readonly DispatcherTimer _timerMouseBeacon;
 
 
         public MainWindowViewModel()
@@ -69,15 +73,23 @@ namespace ProgramAssistor
                 MakeDefaultData();
             }
 
-            _timer = new DispatcherTimer
+            _timerPos = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(1)
+                Interval = TimeSpan.FromSeconds(Def.PositionUpdateInterval)
             };
-            _timer.Tick += (sender, args) => MoveProcessInfo();
+            _timerPos.Tick += (sender, args) => MoveProcessInfo();
             //_timer.Start();
+
+            _timerMouseBeacon = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(Def.MouseBeaconInterval)
+            };
+            _timerMouseBeacon.Tick += (sender, args) => MouseBeaconFunction();
+
 
             SaveCommand = new RelayCommand<string>(SaveCommand_Function);
             MoveCommand = new RelayCommand<string>(MoveCommand_Function);
+            MouseBeaconCommand = new RelayCommand<string>(MouseBeaconCommand_Function);
         }
 
         public void RetreiveProcess()
@@ -208,6 +220,41 @@ namespace ProgramAssistor
         private void MoveCommand_Function(string para)
         {
             MoveProcessInfo();
+        }
+        private void MouseBeaconCommand_Function(string para)
+        {
+            if (para.ToLower() == "on")
+            {
+                _timerMouseBeacon.Start();
+            }
+            else
+            {
+                _timerMouseBeacon.Stop();
+            }
+        }
+
+        [DllImport("user32.dll")]
+        static extern bool SetCursorPos(int X, int Y);
+
+        [DllImport("user32.dll")]
+        static extern bool GetCursorPos(out POINT lpPoint);
+        public struct POINT
+        {
+            public int X;
+            public int Y;
+        }
+
+        void MouseBeaconFunction()
+        {
+            int offset = 1;
+            POINT currentPos;
+            GetCursorPos(out currentPos);
+
+            // 1 픽셀 왼쪽으로 이동
+            SetCursorPos(currentPos.X - offset, currentPos.Y);
+            Thread.Sleep(500);
+            // 1 픽셀 오른쪽으로 이동
+            SetCursorPos(currentPos.X + offset, currentPos.Y);
         }
     }
 }

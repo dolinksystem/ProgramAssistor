@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ProgramAssistor.Defines
+﻿namespace ProgramAssistor.Defines
 {
     public partial class Def
     {
+        public const int PositionUpdateInterval = 2;
+        public const int MouseBeaconInterval = 5;
     }
 }
