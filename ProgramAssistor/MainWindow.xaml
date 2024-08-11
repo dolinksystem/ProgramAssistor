@@ -1,0 +1,47 @@
+﻿<Window x:Class="ProgramAssistor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:ProgramAssistor"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        Title="Program Assistor"
+        Width="600"
+        Height="400"
+        mc:Ignorable="d">
+    <Window.Resources>
+        <system:Double x:Key="IconSize">24</system:Double>
+        <system:Double x:Key="ButtonWidth">90</system:Double>
+    </Window.Resources>
+    <Grid>
+        <TabControl Width="Auto" materialDesign:ColorZoneAssist.Mode="PrimaryDark">
+            <TabItem Header="POSITION">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0"
+                                Margin="5,2,5,2"
+                                Command="{Binding MoveCommand}"
+                                Content="MOVE"
+                                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                        <Button Grid.Column="1"
+                                Margin="5,2,5,2"
+                                Command="{Binding SaveCommand}"
+                                Content="SAVE"
+                                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="BACKUP" />
+        </TabControl>
+    </Grid>
+</Window>
